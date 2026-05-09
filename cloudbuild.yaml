@@ -1,37 +1,39 @@
 steps:
   # Step 1: Install dependencies in a virtual environment
   - name: 'python:3.9'
-    entrypoint: 'sh'
+    entrypoint: 'bash'
     args:
       - '-c'
       - |
-        python -m venv venv && \
-        . venv/bin/activate && \
-        pip install --upgrade pip && \
+        python -m venv /workspace/venv
+        source /workspace/venv/bin/activate
+        pip install --upgrade pip
         pip install -r requirements.txt
 
   # Step 2: Run tests in the same environment
   - name: 'python:3.9'
-    entrypoint: 'sh'
+    entrypoint: 'bash'
     args:
       - '-c'
       - |
-        . venv/bin/activate && \
+        source /workspace/venv/bin/activate
         python -m unittest discover tests
 
   # Step 3: Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: 
+    args:
       - 'build'
       - '-t'
       - 'us-central1-docker.pkg.dev/oval-turbine-495504-h2/myimage/myapp:$BUILD_ID'
       - '.'
+
   # Step 4: Push Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: 
+    args:
       - 'push'
       - 'us-central1-docker.pkg.dev/oval-turbine-495504-h2/myimage/myapp:$BUILD_ID'
-      
+
 images:
-  - 'us-east1-docker.pkg.dev/openwriteup/cicd/myapp:$BUILD_ID'
-logsBucket: "gs://lab9-log-archive-biswa"
+  - 'us-central1-docker.pkg.dev/oval-turbine-495504-h2/myimage/myapp:$BUILD_ID'
+
+logsBucket: 'gs://lab9-log-archive-biswa'
