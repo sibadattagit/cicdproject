@@ -8,7 +8,7 @@ steps:
         python -m venv /workspace/venv
         source /workspace/venv/bin/activate
         pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r app/requirements.txt
 
   # Step 2: Run tests in the same environment
   - name: 'python:3.9'
