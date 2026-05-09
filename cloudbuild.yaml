@@ -36,4 +36,4 @@ steps:
 images:
   - 'us-central1-docker.pkg.dev/my-project-5-495504/sibadocregistry/myimage/myapp:$BUILD_ID'
 
-logsBucket: 'gs://lab9-log-archive-siba'
+logsBucket: 'gs://lab2-log-archive-siba'
